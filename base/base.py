@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-class AiTool:
+class DocumentAiTool:
 
     prompt_template = ""
     model = ""

@@ -1,5 +1,5 @@
 import streamlit as st
-from tools.pdf import PdfAiTool
+from base.pdf import PdfAiTool
 
 st.set_page_config(page_title="PDF Summarizer", page_icon="📁")
 

@@ -1,4 +1,4 @@
-from base.base import AiTool
+from base.base import DocumentAiTool
 import shutil
 import os
 from functools import lru_cache
@@ -9,14 +9,14 @@ from langchain.chains.summarize import load_summarize_chain
 from langchain.chains.question_answering import load_qa_chain
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
-class PdfAiTool(AiTool):
+class PdfAiTool(DocumentAiTool):
 
     prompt_template = """
 You are a university student and is asked by the professor to write a summary of the uploaded document. 
 The summary should have close to {word_approx} words but must not exceed {word_limit} words and {para_limit} paragraphs.  
 Focus on capturing the main ideas and key points discussed in the document. Use your own words and layman's terms.
 """
-    model = "gpt-3.5-turbo"
+    model = "gpt-4o-mini"
 
     def load_file(self, file_name, content):
         self.pages = self.process_file(file_name, content)

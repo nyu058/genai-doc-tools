@@ -1,6 +1,6 @@
 import os
 import shutil
-from base.base import AiTool
+from base.base import DocumentAiTool
 from functools import lru_cache
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_redis import RedisConfig, RedisVectorStore
@@ -13,14 +13,15 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-class RagAiTool(AiTool):
+class RagAiTool(DocumentAiTool):
+    model = "gpt-4o-mini"
 
     def __init__(self, redis_url):
         config = RedisConfig(index_name="document", redis_url=redis_url)
         self.vector_store = RedisVectorStore(
             OpenAIEmbeddings(model="text-embedding-3-large"), config=config
         )
-        self.llm = ChatOpenAI(model="gpt-4o-mini")
+        self.llm = ChatOpenAI(model=self.model)
         contextualize_q_system_prompt = (
             "Given a chat history and the latest user question "
             "which might reference context in the chat history, "
@@ -83,7 +84,7 @@ class RagAiTool(AiTool):
         with open(upload_path, "wb") as f:
             f.write(content)
         loader = PyPDFLoader(upload_path)
-        splitter = RecursiveCharacterTextSplitter(chunk_size=10000)
+        splitter = RecursiveCharacterTextSplitter(chunk_size=500)
         pages = loader.load_and_split(text_splitter=splitter)
         # cleaning up
         try:

@@ -1,5 +1,5 @@
 import streamlit as st
-from tools.rag_qa import RagAiTool
+from base.rag_qa import RagAiTool
 import os
 import uuid
 
